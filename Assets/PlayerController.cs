@@ -1,0 +1,49 @@
+using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlayerController : MonoBehaviour
+{
+    public float speed;
+    private Rigidbody2D rigidbody;
+    public TextMeshProUGUI collectedText;
+    public static int collectedAmount = 0;
+
+    public GameObject bulletPrefab;
+    public float bulletSpeed;
+    private float lastFire;
+    public float fireDelay;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        float shootHor = Input.GetAxis("ShootHorizontal");
+        float shootVert = Input.GetAxis("ShootVertical");
+        if ((shootHor != 0 || shootVert != 0) && Time.time - lastFire > fireDelay)
+        {
+            Shoot(shootHor, shootVert);
+            lastFire = Time.time; 
+        }
+        rigidbody.linearVelocity = new Vector2(horizontal * speed, vertical * speed);
+        collectedText.text = "Items collected: " + collectedAmount;
+    }
+
+    void Shoot(float x, float y)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+        bullet.AddComponent<Rigidbody2D>().gravityScale = 0;
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector3(
+            (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed,
+            (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed,
+            0
+        );
+    }
+}
