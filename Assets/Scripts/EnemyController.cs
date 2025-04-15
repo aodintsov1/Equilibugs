@@ -10,17 +10,30 @@ public enum EnemyState
     Wander,
     Follow,
     Die,
-}
+    Attack,
+};
+
+public enum EnemyType
+{
+    Melee,
+    Ranged,
+    
+};
 public class EnemyController : MonoBehaviour
 {
     GameObject player;
 
     public EnemyState currState = EnemyState.Wander;
+    public EnemyType enemyType;
     public float range;
     public float speed;
+    public float attackRange;
+    public float coolDown;
     private bool chooseDir = false;
     private bool dead = false;
+    private bool coolDownAttack = false;
     private Vector3 randomDir;
+    public GameObject bulletPrefab;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,6 +54,9 @@ public class EnemyController : MonoBehaviour
                 break;
             case(EnemyState.Die):
                 break;
+            case(EnemyState.Attack):
+                Attack();
+                break;
         }
 
         if (IsPlayerInRange(range) && currState != EnemyState.Die)
@@ -50,6 +66,11 @@ public class EnemyController : MonoBehaviour
         else if (!IsPlayerInRange(range) && currState != EnemyState.Die)
         {
             currState = EnemyState.Wander;
+        }
+
+        if (Vector3.Distance(transform.position, player.transform.position) <= attackRange)
+        {
+            currState = EnemyState.Attack;
         }
     }
 
@@ -76,7 +97,7 @@ public class EnemyController : MonoBehaviour
         transform.position += -transform.right * speed * Time.deltaTime;
         if (IsPlayerInRange(range))
         {
-            
+            currState = EnemyState.Follow;
         }
     }
 
@@ -85,6 +106,33 @@ public class EnemyController : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
     }
 
+    void Attack()
+    {
+        if (!coolDownAttack)
+        {
+            switch (enemyType)
+            {
+                case(EnemyType.Melee):
+                    GameController.DamagePlayer(1);
+                    StartCoroutine(CoolDown()); 
+                    break;
+                case(EnemyType.Ranged):
+                    GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity) as GameObject;
+                    bullet.GetComponent<BulletController>().GetPlayer(player.transform);
+                    bullet.AddComponent<Rigidbody2D>().gravityScale = 0;
+                    bullet.GetComponent<BulletController>().isEnemyBullet = true;
+                    StartCoroutine(CoolDown());
+                    break;
+            }
+        }
+    }
+
+    private IEnumerator CoolDown()
+    {
+        coolDownAttack = true;
+        yield return new WaitForSeconds(coolDown);
+        coolDownAttack = false;
+    }
     public void Death()
     {
         Destroy(gameObject);
