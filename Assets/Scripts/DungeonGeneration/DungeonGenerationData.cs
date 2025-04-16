@@ -1,7 +1,12 @@
 using UnityEngine;
 
-public class DungeonGenerationData : MonoBehaviour
+[CreateAssetMenu(fileName = "DungeonGenerationData.asset", menuName = "DungeonGenerationData/Dungeon Data")]
+public class DungeonGenerationData : ScriptableObject
 {
+    public int numberOfCrawlers;
+
+    public int iterationMin;
+    public int iterationMax;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
