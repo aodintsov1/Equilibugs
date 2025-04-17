@@ -7,7 +7,14 @@ public class Room : MonoBehaviour
     public int Width;
     public int Height;
     public int X;
-    public int Y;
+    public int Y;   
+    private bool updatedDoors = false;
+
+    public Room(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
     public Door leftDoor;
     public Door rightDoor;
     public Door topDoor;
@@ -127,7 +134,11 @@ public class Room : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (name.Contains("End") && !updatedDoors)
+        {
+            RemoveUnconnectedDoors();
+            updatedDoors = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
