@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.PlasticSCM.Editor.WebApi;
+using UnityEditor.UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public enum EnemyState
 {
+    Idle,
     Wander,
     Follow,
     Die,
@@ -23,7 +25,7 @@ public class EnemyController : MonoBehaviour
 {
     GameObject player;
 
-    public EnemyState currState = EnemyState.Wander;
+    public EnemyState currState = EnemyState.Idle;
     public EnemyType enemyType;
     public float range;
     public float speed;
@@ -34,11 +36,19 @@ public class EnemyController : MonoBehaviour
     private bool coolDownAttack = false;
     private Vector3 randomDir;
     public GameObject bulletPrefab;
+    public AudioClip alertClip;
+    private AudioSource audioSource;
+    public bool notInRoom = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");    
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
     }
 
     // Update is called once per frame
@@ -59,18 +69,34 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
-        if (IsPlayerInRange(range) && currState != EnemyState.Die)
+        if (!notInRoom)
         {
-            currState = EnemyState.Follow;
-        }
-        else if (!IsPlayerInRange(range) && currState != EnemyState.Die)
-        {
-            currState = EnemyState.Wander;
-        }
+            if (IsPlayerInRange(range) && currState != EnemyState.Die)
+            {
+                currState = EnemyState.Follow;
+            }
+            else if (!IsPlayerInRange(range) && currState != EnemyState.Die)
+            {
+                currState = EnemyState.Wander;
+            }
 
-        if (Vector3.Distance(transform.position, player.transform.position) <= attackRange)
+            if (Vector3.Distance(transform.position, player.transform.position) <= attackRange)
+            {
+                currState = EnemyState.Attack;
+            }
+
+            if (enemyType == EnemyType.Melee)
+            {
+                if (currState == EnemyState.Follow && !audioSource.isPlaying)
+                    audioSource.Play();
+                else if ((currState != EnemyState.Follow || currState == EnemyState.Die)
+                         && audioSource.isPlaying)
+                    audioSource.Stop();
+            }
+        }
+        else
         {
-            currState = EnemyState.Attack;
+            currState = EnemyState.Idle;
         }
     }
 
@@ -135,6 +161,9 @@ public class EnemyController : MonoBehaviour
     }
     public void Death()
     {
+        RoomController.instance.StartCoroutine(RoomController.instance.RoomCoroutine());
+        if (audioSource.isPlaying)
+            audioSource.Stop();
         Destroy(gameObject);
     }
 }

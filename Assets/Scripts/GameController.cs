@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +10,11 @@ public class GameController : MonoBehaviour
     private static float moveSpeed = 5f;
     private static float fireRate = 0.5f;
     private static float bulletSize = 0.5f;
+
+    private bool speedItemCollected = false;
+    private bool fireRateItemCollected = false;
+    
+    public List<string> collectedNames = new List<string>();
 
     public static float Health
     {
@@ -85,6 +91,27 @@ public class GameController : MonoBehaviour
         bulletSize += size;
     }
 
+    public void UpdateCollectedItems(CollectionController item)
+    {
+        collectedNames.Add(item.item.name);
+        foreach (string i in collectedNames)
+        {
+            switch (i)
+            {
+                case "Speed":
+                    speedItemCollected = true;
+                    break;
+                case "FireRate":
+                    fireRateItemCollected = true;
+                    break;
+            }
+        }
+
+        if (speedItemCollected && fireRateItemCollected)
+        {
+            FireRateChange(0.25f);
+        }
+    }
     private static void KillPlayer()
     {
         

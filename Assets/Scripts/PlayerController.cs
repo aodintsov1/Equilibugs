@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float bulletSpeed;   
     private float lastFire;
     public float fireDelay;
-    private Vector2 facingDirection = Vector2.right;
+    public Vector2 facingDirection = Vector2.right;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
