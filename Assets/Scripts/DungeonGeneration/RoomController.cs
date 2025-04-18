@@ -161,7 +161,8 @@ public class RoomController : MonoBehaviour
     {
         string[] possibleRooms = new string[]
         {
-            "Basic1"
+            "Basic1",
+            "Empty"
         };
         return possibleRooms[Random.Range(0, possibleRooms.Length)];
     }
