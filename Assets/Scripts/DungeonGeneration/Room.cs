@@ -51,6 +51,7 @@ public class Room : MonoBehaviour
         RoomController.instance.RegisterRoom(this);
     }
 
+   /*
     public void RemoveUnconnectedDoors()
     {
         foreach (Door door in doors)
@@ -60,31 +61,32 @@ public class Room : MonoBehaviour
                 case Door.DoorType.right:
                     if (GetRight() == null)
                     {
-                        door.gameObject.SetActive(false);
+                        door.gameObject.SetActive(true);
                     }
                     break;
                 case Door.DoorType.left:
                     if (GetLeft() == null)
                     {
-                        door.gameObject.SetActive(false);
+                        door.gameObject.SetActive(true);
                     }
                     break;
                 case Door.DoorType.top:
                     if (GetTop() == null)
                     {
-                        door.gameObject.SetActive(false);
+                        door.gameObject.SetActive(true);
                     }
                     break;
                 case Door.DoorType.bottom:
                     if (GetBottom() == null)
                     {
-                        door.gameObject.SetActive(false);
+                        door.gameObject.SetActive(true);
                     }
                     break;
             }
         }
+        
     }
-
+*/
     public Room GetRight()
     {
         if (RoomController.instance.DoesRoomExist(X + 1, Y))
@@ -136,7 +138,7 @@ public class Room : MonoBehaviour
     {
         if (name.Contains("End") && !updatedDoors)
         {
-            RemoveUnconnectedDoors();
+            //RemoveUnconnectedDoors();
             updatedDoors = true;
         }
     }

@@ -111,7 +111,7 @@ public class RoomController : MonoBehaviour
             {
                 foreach (Room room in loadedRooms)
                 {
-                    room.RemoveUnconnectedDoors();
+                    //room.RemoveUnconnectedDoors();
                 }
                 UpdateRooms();
                 updatedRooms = true; 
@@ -161,7 +161,6 @@ public class RoomController : MonoBehaviour
     {
         string[] possibleRooms = new string[]
         {
-            "Empty",
             "Basic1"
         };
         return possibleRooms[Random.Range(0, possibleRooms.Length)];
@@ -214,7 +213,24 @@ public class RoomController : MonoBehaviour
                 {
                     foreach (Door door in room.GetComponentsInChildren<Door>())
                     {
-                        door.doorCollider.SetActive(false);
+                        
+                        bool hasNeighbor = false;
+                        switch (door.doorType)
+                        {
+                            case Door.DoorType.right:
+                                hasNeighbor = room.GetRight() != null;
+                                break;
+                            case Door.DoorType.left:
+                                hasNeighbor = room.GetLeft() != null;
+                                break;
+                            case Door.DoorType.top:
+                                hasNeighbor = room.GetTop() != null;
+                                break;
+                            case Door.DoorType.bottom:
+                                hasNeighbor = room.GetBottom() != null;
+                                break;
+                        }
+                        door.doorCollider.SetActive(!hasNeighbor);
                     }
                 }
             }
