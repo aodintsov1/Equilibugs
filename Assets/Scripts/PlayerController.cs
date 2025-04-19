@@ -1,7 +1,6 @@
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,34 +10,55 @@ public class PlayerController : MonoBehaviour
     public static int collectedAmount = 0;
 
     public GameObject bulletPrefab;
-    public float bulletSpeed;   
+    public float bulletSpeed;
     private float lastFire;
     public float fireDelay;
     public Vector2 facingDirection = Vector2.right;
-    void Start()
+    private Vector2 moveInput;
+
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+    private InputAction fireAction;
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
+        moveAction = playerInput.actions["Move"];
+        fireAction = playerInput.actions["Fire"];
     }
-    
+
+    void OnEnable()
+    {
+        moveAction.Enable();
+        fireAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        moveAction.Disable();
+        fireAction.Disable();
+    }
+
     void Update()
     {
         fireDelay = GameController.FireRate;
         speed = GameController.MoveSpeed;
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(horizontal, vertical);
-        if (movement.sqrMagnitude > 0.01f)
+
+        moveInput = moveAction.ReadValue<Vector2>();
+        if (moveInput.sqrMagnitude > 0.01f)
         {
-            facingDirection = movement.normalized;
+            facingDirection = moveInput.normalized;
         }
-        
-        if (Input.GetButton("Fire1") && Time.time - lastFire > fireDelay)
+
+        rb.linearVelocity = moveInput * speed;
+        collectedText.text = "Items collected: " + collectedAmount;
+
+        if (fireAction.triggered && Time.time - lastFire > fireDelay)
         {
             Shoot(facingDirection);
             lastFire = Time.time;
         }
-        rb.linearVelocity = movement * speed;
-        collectedText.text = "Items collected: " + collectedAmount;
     }
 
     void Shoot(Vector2 direction)

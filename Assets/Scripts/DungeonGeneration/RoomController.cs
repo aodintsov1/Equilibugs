@@ -30,7 +30,7 @@ public class RoomController : MonoBehaviour
 
     public void LoadRoom(string name, int x, int y)
     {
-        if (DoesRoomExist(x, y))
+        if (DoesRoomExist(x, y) == true)
         {
             return;
         }
