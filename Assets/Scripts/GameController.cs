@@ -98,10 +98,10 @@ public class GameController : MonoBehaviour
         {
             switch (i)
             {
-                case "Speed":
+                case "SpeedItem":
                     speedItemCollected = true;
                     break;
-                case "FireRate":
+                case "BulletItem":
                     fireRateItemCollected = true;
                     break;
             }

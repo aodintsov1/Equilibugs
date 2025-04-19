@@ -12,11 +12,8 @@ public class CollectionController : MonoBehaviour
     public Item item;
 
     public float healthChange;
-
     public float moveSpeedChange;
-
     public float attackSpeedChange;
-
     public float bulletSizeChange;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,7 +31,7 @@ public class CollectionController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.tag == "Player")
         {
             PlayerController.collectedAmount++;
             GameController.HealPlayer(healthChange);
