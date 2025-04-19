@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.PlasticSCM.Editor.WebApi;
-using UnityEditor.UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

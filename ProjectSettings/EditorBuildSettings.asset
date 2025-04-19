@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/DungeonRooms/Stage1Main.unity
+    guid: 810ec10af92703246910994c913ddbfd
+  - enabled: 1
     path: Assets/Scenes/DungeonRooms/Stage1Start.unity
     guid: 56a1641886cb8ff43a5ab133bad98d84
   - enabled: 1

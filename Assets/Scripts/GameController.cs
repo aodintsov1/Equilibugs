@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
 
     private bool speedItemCollected = false;
     private bool fireRateItemCollected = false;
+    public AudioClip hitSound;       
+    private AudioSource audioSource;
     
     public List<string> collectedNames = new List<string>();
 
@@ -49,6 +51,7 @@ public class GameController : MonoBehaviour
         {
             instance = this;
         }
+        audioSource = GetComponent<AudioSource>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,6 +67,8 @@ public class GameController : MonoBehaviour
 
     public static void DamagePlayer(int damage)
     {
+        if (instance.hitSound != null)
+            instance.audioSource.PlayOneShot(instance.hitSound);
         Health -= damage;
         if (Health <= 0)
         {
