@@ -1097,6 +1097,9 @@ MonoBehaviour:
   bulletSpeed: 7.5
   fireDelay: 0.5
   facingDirection: {x: 1, y: 0}
+  forwardSprite: {fileID: 21300000, guid: 8bc0a6131b9e23544b6b033d5ed9ffdc, type: 3}
+  backSprite: {fileID: 21300000, guid: 4158d2a449b208342b8343f8c779a3a4, type: 3}
+  sideSprite: {fileID: 21300000, guid: bce86235d62c0524790d20ef28697ee8, type: 3}
 --- !u!61 &1067693310
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1234,7 +1237,7 @@ Transform:
   m_GameObject: {fileID: 1067693308}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.1052356, y: 2.223253, z: -0.07721957}
+  m_LocalPosition: {x: -5, y: 0, z: -0.07721957}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1832,7 +1835,7 @@ Transform:
   m_GameObject: {fileID: 1203679405}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.76, y: 1.84, z: -0.07721957}
+  m_LocalPosition: {x: 5, y: 0, z: -0.07721957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2123,6 +2126,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthItem
       objectReference: {fileID: 0}
+    - target: {fileID: 5182902182903593278, guid: b9ffcd332a3f2754bac467e2dc86775a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7607847624901869753, guid: b9ffcd332a3f2754bac467e2dc86775a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.6
@@ -2257,6 +2264,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3641500795155368598, guid: 7e905461f69868247932c355dcb1137f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4646362361440662075, guid: 7e905461f69868247932c355dcb1137f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.21
@@ -2354,6 +2365,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BulletItem
       objectReference: {fileID: 0}
+    - target: {fileID: 8954013367477817016, guid: 68c5eae5ca5cf6747ae8f10be7873658, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2418,6 +2433,10 @@ PrefabInstance:
     - target: {fileID: 5696942324400470055, guid: 887931421150b7e4ebcd87647ef4c85b, type: 3}
       propertyPath: m_Name
       value: SpeedItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5696942324400470055, guid: 887931421150b7e4ebcd87647ef4c85b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

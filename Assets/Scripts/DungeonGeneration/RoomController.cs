@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class RoomInfo
@@ -144,11 +145,18 @@ public class RoomController : MonoBehaviour
         UpdateRoomQueue();
     }
 
-    public void OnPlayerEnterRoom(Room room)
+    public void OnPlayerEnterRoom(Room room, GameObject enteringPlayer)
     {
         CameraController.instance.currRoom = room;
         currRoom = room;
         StartCoroutine(RoomCoroutine());
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var pi in PlayerInput.all)
+        {
+            if (pi.gameObject == enteringPlayer) continue;
+            pi.transform.position = enteringPlayer.transform.position;
+            break;
+        }
     }
 
     public IEnumerator RoomCoroutine()

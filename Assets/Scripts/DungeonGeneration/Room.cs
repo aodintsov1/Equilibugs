@@ -145,9 +145,7 @@ public class Room : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
-        {
-            RoomController.instance.OnPlayerEnterRoom(this); 
-        }
+        if (!other.CompareTag("Player")) return;
+        RoomController.instance.OnPlayerEnterRoom(this, other.gameObject);
     }
 }
