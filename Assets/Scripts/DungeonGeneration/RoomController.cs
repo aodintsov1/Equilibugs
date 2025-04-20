@@ -151,12 +151,12 @@ public class RoomController : MonoBehaviour
         currRoom = room;
         StartCoroutine(RoomCoroutine());
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (var pi in PlayerInput.all)
-        {
-            if (pi.gameObject == enteringPlayer) continue;
-            pi.transform.position = enteringPlayer.transform.position;
-            break;
-        }
+            foreach (var pi in PlayerInput.all)
+            {
+                if (pi.gameObject == enteringPlayer) continue;
+                pi.transform.position = enteringPlayer.transform.position;
+                break;
+            }
     }
 
     public IEnumerator RoomCoroutine()
