@@ -103,7 +103,7 @@ MonoBehaviour:
   item:
     name: BulletItem
     description: Increases bullet size and shot speed
-    itemImage: {fileID: -3738601135272239712, guid: 78c14379acf65eb4d90957c090a6576c, type: 3}
+    itemImage: {fileID: 21300000, guid: 78c14379acf65eb4d90957c090a6576c, type: 3}
   healthChange: 0
   moveSpeedChange: 0
   attackSpeedChange: 0.25

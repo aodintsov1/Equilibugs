@@ -103,7 +103,7 @@ MonoBehaviour:
   item:
     name: SpeedItem
     description: Increases move speed by 1
-    itemImage: {fileID: -5752863089581935957, guid: 30c3fc3cc27790d4993b1de0a7909a20, type: 3}
+    itemImage: {fileID: 21300000, guid: 30c3fc3cc27790d4993b1de0a7909a20, type: 3}
   healthChange: 0
   moveSpeedChange: 1
   attackSpeedChange: 0

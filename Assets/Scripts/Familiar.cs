@@ -13,7 +13,7 @@ public class Familiar : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.Find("Player");
         playerCtrl = player.GetComponent<PlayerController>();
     }
 
@@ -25,7 +25,7 @@ public class Familiar : MonoBehaviour
         float vertical   = Input.GetAxis("Vertical");
         if (Input.GetButton("Fire1") && Time.time - lastFire > familiar.fireDelay)
         {
-            Shoot(dir.x, dir.y);   
+            Shoot(dir);   
             lastFire = Time.time;
         }
 
@@ -46,12 +46,13 @@ public class Familiar : MonoBehaviour
         }
     }
 
-    void Shoot(float x, float y)
+    void Shoot(Vector2 direction)
     {
-        GameObject bullet = Instantiate(familiar.bulletPrefab, transform.position, Quaternion.identity) as GameObject;
-        float posX = (x < 0) ? Mathf.Floor(x) * familiar.speed : Mathf.Ceil(x) * familiar.speed;
-        float posY = (y < 0) ? Mathf.Floor(y) * familiar.speed : Mathf.Ceil(y) * familiar.speed;
-        bullet.AddComponent<Rigidbody2D>().gravityScale = 0;
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(posX, posY);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rot = Quaternion.Euler(0f, 0f, angle - 90f);
+        GameObject bullet = Instantiate(familiar.bulletPrefab, transform.position, rot) as GameObject;
+        Rigidbody2D rb = bullet.AddComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
+        rb.linearVelocity = direction * familiar.bulletSpeed;
     }
 }

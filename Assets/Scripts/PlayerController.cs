@@ -31,6 +31,14 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         fireAction = playerInput.actions["Fire"];
+        Collider2D myCol = GetComponent<Collider2D>();
+        foreach (var other in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (other == gameObject) continue;
+            Collider2D otherCol = other.GetComponent<Collider2D>();
+            if (otherCol != null)
+                Physics2D.IgnoreCollision(myCol, otherCol, true);
+        }
     }
 
     void OnEnable()
@@ -88,7 +96,9 @@ public class PlayerController : MonoBehaviour
     
     void Shoot(Vector2 direction)
     {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;  
+        Quaternion rot = Quaternion.Euler(0f, 0f, angle - 90f);  
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, rot);
         Rigidbody2D bulletRb = bullet.AddComponent<Rigidbody2D>();
         bulletRb.gravityScale = 0;
         bulletRb.linearVelocity = direction * bulletSpeed;
